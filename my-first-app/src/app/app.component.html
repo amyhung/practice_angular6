@@ -1,0 +1,11 @@
+<app-header (switchedTab)="switchTab($event)"></app-header>
+<div class="container">
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!--
+ <app-recipes *ngIf="currentTab=='recipe'"></app-recipes>
+    <app-shopping-list *ngIf="currentTab=='shopping-list'"></app-shopping-list>
+-->

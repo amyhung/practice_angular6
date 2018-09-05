@@ -1,0 +1,23 @@
+<div class="container">
+  <app-cockpitt (serverCreated)="onServerAdded($event)" (buleprintCreated)="onBlueprintAdded($event)"></app-cockpitt>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-primary" (click)="onChangeFirst()">Change first Element</button>
+      <app-server-element 
+        *ngFor="let serverElement of serverElements" 
+        [srvElement]="serverElement"
+        [name] = serverElement.name>
+        <p #contentParagraph>
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">{{ serverElement.content }}</strong>
+          <em *ngIf="serverElement.type === 'blueprint'"><strong>{{ serverElement.content }}</strong></em>
+        </p>
+      </app-server-element>
+    </div>
+  </div>
+</div>
+
+<!--
+#contentParagraph 的<p>，會被放入 <ng-content></ng-content> (server-element.component.html 裡)
+
+-->
