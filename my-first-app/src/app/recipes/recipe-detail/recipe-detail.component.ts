@@ -23,10 +23,12 @@ export class RecipeDetailComponent implements OnInit {
     private router: Router, ) { }
 
   ngOnInit() {
+    // when route changes, event will be triggered, and below will be executed.
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
         this.recipe = this.recipeService.getRecipe(this.id);
+        console.log('route.params.subscribe');
       }
     );
   }
@@ -38,6 +40,11 @@ export class RecipeDetailComponent implements OnInit {
   onEditRecipe() {
     //this.router.navigate(['edit'], { relativeTo: this.route });
     this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
+  }
+
+  onDeleteRecipe(){
+    this.recipeService.deleteRecipe(this.id);
+    this.router.navigate(['/recipes']);
   }
 
 }

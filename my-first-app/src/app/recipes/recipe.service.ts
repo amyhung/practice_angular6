@@ -1,8 +1,15 @@
 import { Recipe } from './recipe.model';
-import { EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
+import { Subject } from 'rxjs/Subject';
 
+@Injectable()
 export class RecipeService {
+
+    //recipeSelected = new EventEmitter<Recipe>();
+    //recipeSelected = new Subject<Recipe>();
+
+    recipeChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
         new Recipe(
@@ -18,8 +25,6 @@ export class RecipeService {
         )
     ];
 
-    recipeSelected = new EventEmitter<Recipe>();
-
     getRecipes() {
         // 把 recipes copy 一份新的出來，然後再回傳
         // 所以會建立另一個 array instance
@@ -28,6 +33,26 @@ export class RecipeService {
 
     getRecipe(index: number) {
         return this.recipes[index];
+    }
+
+    addRecipe(recipe: Recipe) {
+        this.recipes.push(recipe);
+        this.recipeChanged.next(this.recipes.slice());
+    }
+
+    updateRecipe(index: number, recipe: Recipe) {
+        this.recipes[index] = recipe;
+        this.recipeChanged.next(this.recipes.slice());
+    }
+
+    deleteRecipe(index: number) {
+        this.recipes.splice(index, 1);
+        this.recipeChanged.next(this.recipes.slice());
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipeChanged.next(this.recipes.slice());
     }
 
 }
