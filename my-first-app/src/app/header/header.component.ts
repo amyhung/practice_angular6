@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { DataStorageService } from '../shared/data-storage.service';
 import { Response } from '@angular/http';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
 
     @Output() switchedTab = new EventEmitter<string>();
 
-    constructor(private dataStorageService: DataStorageService) {
+    constructor(private dataStorageService: DataStorageService, private authService: AuthService) {
 
     }
 
@@ -30,6 +31,10 @@ export class HeaderComponent implements OnInit {
 
     onFetchData() {
         this.dataStorageService.getRecipes();
+    }
+
+    onLogout() {
+        this.authService.logout();
     }
 
     // onSwitchTab(clickTabName: string) {        

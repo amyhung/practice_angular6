@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoggingService } from './logging.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,20 @@ import { LoggingService } from './logging.service';
   styleUrls: ['./app.component.css'],
   providers: [LoggingService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   labelText = '';
   currentTab: string;
+
   onTest() {
     this.labelText = 'This is a test aaa.';
+  }
+
+  ngOnInit() {
+    firebase.initializeApp({
+      apiKey: "AIzaSyC5x0SQPfJhzTLFQRFXqeA73PMYsAR3-es",
+      authDomain: "practiceangular6.firebaseapp.com"
+    });
   }
 
   constructor(private loggingService: LoggingService) {

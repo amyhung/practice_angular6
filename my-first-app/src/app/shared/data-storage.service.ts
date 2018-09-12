@@ -4,20 +4,25 @@ import 'rxjs/Rx'; // 這裡一定要加，不然下面的 .map() 方法會有 er
 import { Observable } from "rxjs/Rx";
 import { RecipeService } from "../recipes/recipe.service";
 import { Recipe } from "../recipes/recipe.model";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable()
 export class DataStorageService {
 
-    constructor(private http: Http, private recipeService: RecipeService) {
+    constructor(private http: Http, private recipeService: RecipeService, private authService: AuthService) {
 
     }
 
     storeRecipes() {
-        return this.http.put('https://practiceangular6.firebaseio.com/recipes.json', this.recipeService.getRecipes());
+        const token = this.authService.getToken();
+        return this.http.put('https://practiceangular6.firebaseio.com/recipes.json?auth=' + token, this.recipeService.getRecipes());
     }
 
     getRecipes() {
-        return this.http.get('https://practiceangular6.firebaseio.com/recipes.json')
+
+        const token = this.authService.getToken();
+
+        return this.http.get('https://practiceangular6.firebaseio.com/recipes.json?auth=' + token)
             .map((response: Response) => {
                 const recipes: Recipe[] = response.json();
                 for (let recipe of recipes) {
